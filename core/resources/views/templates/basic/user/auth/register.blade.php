@@ -112,6 +112,7 @@
                         <i class="las la-times"></i>
                     </span>
                 </div>
+                {{-- @include($activeTemplate . 'partials.social_login') --}}
                 <div class="modal-body">
                     <p class="text-center">@lang('You already have an account please Login ')</p>
                 </div>
