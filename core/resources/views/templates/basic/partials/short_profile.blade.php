@@ -38,7 +38,7 @@
                     </span>
                 </li>
                 <li><span>@lang('Member Since')</span> <span>{{showDateTime($productDetails->user->created_at, 'd M Y')}}</span></li>
-                <li><span>@lang('Level')</span> <span class="text--base">{{__($productDetails->user->level->name)}}</span></li>
+                <li><span>@lang('Level')</span> <span class="text--base">{{__($productDetails->user->level->name ?? '')}}</span></li>
                 <li><span>@lang('User Verified')</span>
                     @if($productDetails->user->kv == Status::KYC_VERIFIED)
                         <span class="badge badge--success">@lang('Yes')</span>

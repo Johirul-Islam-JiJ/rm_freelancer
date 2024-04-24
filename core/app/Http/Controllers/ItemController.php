@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use view;
 use App\Models\Job;
 use App\Models\User;
 use App\Models\JobBid;

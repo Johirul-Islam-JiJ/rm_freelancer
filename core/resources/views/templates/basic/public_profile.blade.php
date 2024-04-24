@@ -49,7 +49,7 @@
                                                             <li><span>@lang('Member since')</span> <span>{{showDateTime($user->created_at, 'd M Y')}}</span></li>
                                                             <li>
                                                                 <span>@lang('Level')</span>
-                                                                <span class="text--base">{{__($user->level->name)}}</span>
+                                                                <span class="text--base">{{__($user->level->name ?? '')}}</span>
                                                             </li>
                                                             <li>
                                                                 <span>@lang('User Verified')</span>
