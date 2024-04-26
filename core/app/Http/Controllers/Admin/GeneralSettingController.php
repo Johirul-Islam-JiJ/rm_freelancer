@@ -22,24 +22,24 @@ class GeneralSettingController extends Controller
     public function update(Request $request)
     {
         $request->validate([
-            'site_name'           => 'required|string|max:40',
-            'cur_text'            => 'required|string|max:40',
-            'cur_sym'             => 'required|string|max:40',
-            'base_color'          => 'nullable|regex:/^[a-f0-9]{6}$/i',
-            'secondary_color'     => 'nullable|regex:/^[a-f0-9]{6}$/i',
-            'timezone'            => 'required|integer',
+            'site_name' => 'required|string|max:40',
+            'cur_text' => 'required|string|max:40',
+            'cur_sym' => 'required|string|max:40',
+            'base_color' => 'nullable|regex:/^[a-f0-9]{6}$/i',
+            'secondary_color' => 'nullable|regex:/^[a-f0-9]{6}$/i',
+            'timezone' => 'required|integer',
             'referral_commission' => 'required|numeric|gte:0',
         ]);
 
         $timezones = json_decode(file_get_contents(resource_path('views/admin/partials/timezone.json')));
         $timezone = @$timezones[$request->timezone] ?? 'UTC';
 
-        $general                      = gs();
-        $general->site_name           = $request->site_name;
-        $general->cur_text            = $request->cur_text;
-        $general->cur_sym             = $request->cur_sym;
-        $general->base_color          = str_replace('#', '', $request->base_color);
-        $general->secondary_color     = str_replace('#', '', $request->secondary_color);
+        $general = gs();
+        $general->site_name = $request->site_name;
+        $general->cur_text = $request->cur_text;
+        $general->cur_sym = $request->cur_sym;
+        $general->base_color = str_replace('#', '', $request->base_color);
+        $general->secondary_color = str_replace('#', '', $request->secondary_color);
         $general->referral_commission = $request->referral_commission;
         $general->save();
 
@@ -58,18 +58,18 @@ class GeneralSettingController extends Controller
 
     public function systemConfigurationSubmit(Request $request)
     {
-        $general                  = gs();
-        $general->kv              = $request->kv ? Status::ENABLE : Status::DISABLE;
-        $general->ev              = $request->ev ? Status::ENABLE : Status::DISABLE;
-        $general->en              = $request->en ? Status::ENABLE : Status::DISABLE;
-        $general->sv              = $request->sv ? Status::ENABLE : Status::DISABLE;
-        $general->sn              = $request->sn ? Status::ENABLE : Status::DISABLE;
-        $general->force_ssl       = $request->force_ssl ? Status::ENABLE : Status::DISABLE;
-        $general->post_approval   = $request->post_approval ? Status::ENABLE : Status::DISABLE;
+        $general = gs();
+        $general->kv = $request->kv ? Status::ENABLE : Status::DISABLE;
+        $general->ev = $request->ev ? Status::ENABLE : Status::DISABLE;
+        $general->en = $request->en ? Status::ENABLE : Status::DISABLE;
+        $general->sv = $request->sv ? Status::ENABLE : Status::DISABLE;
+        $general->sn = $request->sn ? Status::ENABLE : Status::DISABLE;
+        $general->force_ssl = $request->force_ssl ? Status::ENABLE : Status::DISABLE;
+        $general->post_approval = $request->post_approval ? Status::ENABLE : Status::DISABLE;
         $general->secure_password = $request->secure_password ? Status::ENABLE : Status::DISABLE;
-        $general->registration    = $request->registration ? Status::ENABLE : Status::DISABLE;
-        $general->agree           = $request->agree ? Status::ENABLE : Status::DISABLE;
-        $general->multi_language  = $request->multi_language ? Status::ENABLE : Status::DISABLE;
+        $general->registration = $request->registration ? Status::ENABLE : Status::DISABLE;
+        $general->agree = $request->agree ? Status::ENABLE : Status::DISABLE;
+        $general->multi_language = $request->multi_language ? Status::ENABLE : Status::DISABLE;
 
         $general->save();
         $notify[] = ['success', 'System configuration updated successfully'];
@@ -86,9 +86,9 @@ class GeneralSettingController extends Controller
     {
 
         $request->validate([
-            'logo'      => ['image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
+            'logo' => ['image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
             'logo_dark' => ['image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
-            'favicon'   => ['image', new FileTypeValidate(['png'])],
+            'favicon' => ['image', new FileTypeValidate(['png'])],
         ]);
 
         if ($request->hasFile('logo')) {
@@ -133,10 +133,49 @@ class GeneralSettingController extends Controller
         return back()->withNotify($notify);
     }
 
+    public function socialiteCredentials()
+    {
+        $pageTitle = 'Social Login Credentials';
+        return view('admin.setting.social_credential', compact('pageTitle'));
+    }
+
+    public function updateSocialiteCredentialStatus($key)
+    {
+        $general = gs();
+        $credentials = $general->socialite_credentials;
+        try {
+            $credentials->$key->status = $credentials->$key->status == Status::ENABLE ? Status::DISABLE : Status::ENABLE;
+        } catch (\Throwable $th) {
+            abort(404);
+        }
+
+        $general->socialite_credentials = $credentials;
+        $general->save();
+
+        $notify[] = ['success', 'Status changed successfully'];
+        return back()->withNotify($notify);
+    }
+
+    public function updateSocialiteCredential(Request $request, $key)
+    {
+        $general = gs();
+        $credentials = $general->socialite_credentials;
+        try {
+            @$credentials->$key->client_id = $request->client_id;
+            @$credentials->$key->client_secret = $request->client_secret;
+        } catch (\Throwable $th) {
+            abort(404);
+        }
+        $general->socialite_credentials = $credentials;
+        $general->save();
+
+        $notify[] = ['success', ucfirst($key) . ' credential updated successfully'];
+        return back()->withNotify($notify);
+    }
     public function customCss()
     {
-        $pageTitle   = 'Custom CSS';
-        $file        = activeTemplate(true) . 'css/custom.css';
+        $pageTitle = 'Custom CSS';
+        $file = activeTemplate(true) . 'css/custom.css';
         $fileContent = @file_get_contents($file);
         return view('admin.setting.custom_css', compact('pageTitle', 'fileContent'));
     }

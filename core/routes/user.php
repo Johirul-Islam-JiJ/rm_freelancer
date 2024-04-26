@@ -10,6 +10,11 @@ Route::namespace('User\Auth')->name('user.')->group(function () {
         Route::get('logout', 'logout')->middleware('auth')->name('logout');
     });
 
+    Route::controller('SocialiteController')->group(function () {
+        Route::get('social-login/{provider}', 'socialLogin')->name('social.login');
+        Route::get('social-login/callback/{provider}', 'callback')->name('social.login.callback');
+    });
+
     Route::controller('RegisterController')->group(function () {
         Route::get('sign-up/{reference?}', 'showRegistrationForm')->name('register');
         Route::post('sign-up', 'register')->middleware('registration.status');
