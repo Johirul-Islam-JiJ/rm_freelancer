@@ -511,6 +511,7 @@ function permissionList() {
         "Manage System Configuration",
         "Manage Template",
         "Manage Withdraw",
+        "Manage Social",
         "Others",
     ];
 }

@@ -762,6 +762,14 @@
                         </a>
                     </li>
                 @endif
+                @if ($admin && $admin->access('Manage Social'))
+                <li class="sidebar-menu-item {{ menuActive('admin.setting.socialite.credentials') }}">
+                    <a href="{{ route('admin.setting.socialite.credentials') }}" class="nav-link">
+                        <i class="menu-icon las la-users-cog"></i>
+                        <span class="menu-title">@lang('Social Credentials')</span>
+                    </a>
+                </li>
+                @endif
                 @if ($admin && $admin->access('Manage Language'))
                     <li class="sidebar-menu-item  {{ menuActive(['admin.language.manage', 'admin.language.key']) }}">
                         <a class="nav-link" data-default-url="{{ route('admin.language.manage') }}" href="{{ route('admin.language.manage') }}">
