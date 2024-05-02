@@ -18,7 +18,11 @@ class SoftwareBookingController extends Controller
     public function confirmBooking($slug, $id)
     {
         $pageTitle       = 'Software Booking';
-        $software        = Software::where('id', $id)->active()->notAuthUser()->checkData()->with('user')->firstOrFail();
+        $software        = Software::where('id', $id)->active()->notAuthUser()->checkData()->with('user')->first();
+        if(!$software){
+            $notify[] = ['error', 'You cannot purchase this product as it belongs to you.!'];
+            return redirect()->back()->withNotify($notify);
+        }
         $coupon          = Coupon::active()->count();
         $gatewayCurrency = GatewayCurrency::whereHas('method', function ($gate) {
                                 $gate->where('status', Status::ENABLE);
@@ -110,7 +114,7 @@ class SoftwareBookingController extends Controller
 
     public function payment(Request $request)
     {
-       
+
 
         return $this->paymentProcess($request);
     }

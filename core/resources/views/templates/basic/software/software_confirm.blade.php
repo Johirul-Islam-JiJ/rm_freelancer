@@ -26,7 +26,7 @@
                                                                 </div>
                                                                 <div class="author-content">
                                                                     <h5 class="name">
-                                                                        <a href="{{route('public.profile', $software->user->username)}}">{{__($software->user->username)}}</a> <span class="level-text"> {{__($software->user->level->name)}}</span>
+                                                                        <a href="{{route('public.profile', $software->user->username)}}">{{__($software->user->username ?? '')}}</a> <span class="level-text"> {{__($software->user->level->name ?? '')}}</span>
                                                                     </h5>
                                                                     <div class="ratings">
                                                                         @php echo starRating($software->total_review, $software->total_rating) @endphp

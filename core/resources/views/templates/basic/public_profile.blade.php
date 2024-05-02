@@ -50,7 +50,7 @@
                                                             <li>
                                                                 <span>@lang('Level')</span>
                                                                 <span class="text--base">{{__(@$user->level->name)}}</span>
-                                                            </li>
+                                        </li>
                                                             <li>
                                                                 <span>@lang('User Verified')</span>
                                                                 @if($user->kv == 1)
