@@ -16,8 +16,8 @@
                                             <div class="item-card-wrapper border-0 p-0 list-view">
                                                 <div class="item-card">
                                                     <div class="item-card-thumb">
-                                                        <img src="{{ getImage(getFilePath('service').'/'.$orderDetails['service']->image, getFileSize('service')) }}">
-                                                        @if($orderDetails['service']->featured)
+                                                        <img src="{{ getImage(getFilePath('service').'/'.@$orderDetails['service']->image, getFileSize('service')) }}">
+                                                        @if(@$orderDetails['service']->featured)
                                                             <div class="item-level">@lang('Featured')</div>
                                                         @endif
                                                     </div>
@@ -25,43 +25,43 @@
                                                         <div class="item-card-content-top">
                                                             <div class="left">
                                                                 <div class="author-thumb">
-                                                                    <img src="{{ getImage(getFilePath('userProfile').'/'.$orderDetails['service']->user->image, getFileSize('userProfile')) }}" alt="@lang('User Image')">
+                                                                    <img src="{{ getImage(getFilePath('userProfile').'/'.@$orderDetails['service']->user->image, getFileSize('userProfile')) }}" alt="@lang('User Image')">
                                                                 </div>
                                                                 <div class="author-content">
                                                                     <h5 class="name">
-                                                                        <a href="{{route('public.profile', $orderDetails['service']->user->username)}}">{{__($orderDetails['service']->user->username)}}</a> <span class="level-text"> {{__($orderDetails['service']->user->level->name)}}<span>
+                                                                        <a href="{{route('public.profile', @$orderDetails['service']->user->username)}}">{{__(@$orderDetails['service']->user->username)}}</a> <span class="level-text"> {{__(@$orderDetails['service']->user->level->name)}}<span>
                                                                     </h5>
                                                                     <div class="ratings">
-                                                                        @php echo starRating($orderDetails['service']->total_review, $orderDetails['service']->total_rating) @endphp
-                                                                        <span class="rating me-2">({{$orderDetails['service']->total_review}})</span>
+                                                                        @php echo starRating(@$orderDetails['service']->total_review, @$orderDetails['service']->total_rating) @endphp
+                                                                        <span class="rating me-2">({{@$orderDetails['service']->total_review}})</span>
                                                                     </div>
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <h3 class="item-card-title"><span>{{__($orderDetails['service']->name)}}</span></h3>
+                                                        <h3 class="item-card-title"><span>{{__(@$orderDetails['service']->name)}}</span></h3>
                                                     </div>
                                                     <div class="item-card-footer">
                                                         <div class="left">
-                                                            <button class="item-love me-2 make-favorite" data-id="{{$orderDetails['service']->id}}" data-type="service">
+                                                            <button class="item-love me-2 make-favorite" data-id="{{@$orderDetails['service']->id}}" data-type="service">
                                                                 <i class="fas fa-heart"></i>
-                                                                <span class="favorite-count">({{$orderDetails['service']->favorite}})</span>
+                                                                <span class="favorite-count">({{@$orderDetails['service']->favorite}})</span>
                                                             </button>
                                                             <button class="item-like">
-                                                                <i class="las la-thumbs-up"></i> ({{$orderDetails['service']->likes}})
+                                                                <i class="las la-thumbs-up"></i> ({{@$orderDetails['service']->likes}})
                                                             </button>
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
-                                            @if ($orderDetails['extraServices'])
+                                            @if (@$orderDetails['extraServices'])
                                                 <div class="service-card mt-40">
                                                     <div class="service-card-header bg--gray text-center">
                                                         <h4 class="title">@lang('Extra Services')</h4>
                                                     </div>
                                                     <div class="service-card-body">
                                                         <div class="service-card-form">
-                                                            @foreach($orderDetails['extraServices'] as $extraService)
+                                                            @foreach(@$orderDetails['extraServices'] as $extraService)
                                                                 @php $extraServicesId[] = $extraService->id; @endphp
                                                                 <div class="form-row">
                                                                     <div class="left">
@@ -88,26 +88,26 @@
                                                 <ul class="details-list">
                                                     <li><span>@lang('Service Price'):</span>
                                                         <div class="order-price-tags">
-                                                            <span>{{$general->cur_sym}}</span><span>{{showAmount($orderDetails['price'])}}</span>
+                                                            <span>{{$general->cur_sym}}</span><span>{{showAmount(@$orderDetails['price'])}}</span>
                                                         </div>
                                                     </li>
                                                     <li><span>@lang('Extras Service'):</span>
                                                         <div class="order-price-tags">
-                                                            <span>{{$general->cur_sym}}</span><span>{{showAmount($orderDetails['extraServicePrice'])}}</span>
+                                                            <span>{{$general->cur_sym}}</span><span>{{showAmount(@$orderDetails['extraServicePrice'])}}</span>
                                                         </div>
                                                     </li>
                                                     <li>
                                                         <span>@lang('Quantity'):</span>
-                                                        <span>{{$orderDetails['quantity']}}</span>
+                                                        <span>{{@$orderDetails['quantity']}}</span>
                                                     </li>
                                                     <li><span>@lang('Total Price'):</span>
                                                         <div class="order-price-tags">
-                                                            <span>{{$general->cur_sym}}</span><span>{{showAmount($orderDetails['totalPrice'])}}</span>
+                                                            <span>{{$general->cur_sym}}</span><span>{{showAmount(@$orderDetails['totalPrice'])}}</span>
                                                         </div>
                                                     </li>
                                                     <li><span>@lang('Discount'):</span>
                                                         <div class="order-price-tags">
-                                                            <span>{{$general->cur_sym}}</span><span id="discount">{{showAmount($orderDetails['discount'])}}</span>
+                                                            <span>{{$general->cur_sym}}</span><span id="discount">{{showAmount(@$orderDetails['discount'])}}</span>
                                                         </div>
                                                     </li>
                                                 </ul>
@@ -117,7 +117,7 @@
                                                     </div>
                                                     <div class="right">
                                                         <h4 class="title">
-                                                            {{$general->cur_sym}}<span id="grandTotal">{{showAmount($orderDetails['grandTotal'])}}</span>
+                                                            {{$general->cur_sym}}<span id="grandTotal">{{showAmount(@$orderDetails['grandTotal'])}}</span>
                                                         </h4>
                                                     </div>
                                                 </div>
@@ -160,8 +160,8 @@
                         type: "get",
                         url: "{{route('user.service.coupon.apply')}}",
                         data: {
-                            service_id : "{{$orderDetails['service']->id}}",
-                            service_qty : "{{$orderDetails['quantity']}}",
+                            service_id : "{{@$orderDetails['service']->id}}",
+                            service_qty : "{{@$orderDetails['quantity']}}",
                             extra_services : '{{json_encode($extraServicesId)}}',
                             coupon_code : couponCode
                         },

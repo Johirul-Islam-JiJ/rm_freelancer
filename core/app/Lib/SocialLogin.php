@@ -2,15 +2,15 @@
 
 namespace App\Lib;
 
-use App\Constants\Status;
-use App\Models\AdminNotification;
-use App\Models\User;
-use App\Models\UserLogin;
 use Exception;
+use App\Models\User;
+use App\Constants\Status;
+use App\Models\UserLogin;
+use App\Models\AdminNotification;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Hash;
-use Socialite;
+use Illuminate\Support\Facades\Config;
+use Laravel\Socialite\Facades\Socialite;
 
 class SocialLogin
 {
