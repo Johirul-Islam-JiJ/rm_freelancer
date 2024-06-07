@@ -2098,9 +2098,9 @@ a {
 
 .bg--gradi-1,
 .overlay--gradi-1[class*="overlay"]::before {
-    background: #4776E6 !important;
-    background: -webkit-linear-gradient(to top, #8E54E9, #4776E6) !important;
-    background: linear-gradient(to top, #8E54E9, #4776E6) !important;
+    background: #094344 !important;
+    background: -webkit-linear-gradient(to top, #5495e9, #094344) !important;
+    background: linear-gradient(to top, #094344, #4776E6) !important;
 }
 
 .bg--gradi-2,
@@ -4674,7 +4674,7 @@ table thead th:last-child {
 table.table--light thead th {
     border: none;
     color: #ffffff;
-    background-color: #4634ff;
+    background-color: #094344;
 }
 
 table.table--light.style--two thead th {
@@ -5620,7 +5620,7 @@ th.w-85 {
 }
 
 .sidebar .slimScrollDiv .slimScrollBar {
-    background-color: #4634ff !important;
+    background-color: #000000 !important;
     width: 5px !important;
     opacity: 1 !important;
 }
@@ -5812,7 +5812,7 @@ th.w-85 {
 
 .sidebar__menu .sidebar-menu-item .side-menu--open,
 .sidebar__menu .sidebar-menu-item.active>a {
-    background-color: #4634ff !important;
+    background-color: #0000006e !important;
 }
 
 .sidebar__menu .menu-icon {
@@ -5873,7 +5873,7 @@ th.w-85 {
 }
 
 .sidebar__menu .sidebar-submenu .sidebar-menu-item.active>a {
-    background-color: #4634ff59 !important;
+    background-color: #000428 !important;
 }
 
 .sidebar__menu .sidebar-submenu .sidebar-menu-item.active a .menu-icon {
@@ -5922,7 +5922,7 @@ th.w-85 {
 }
 
 .sidebar[class*="bg--"] .sidebar__menu .sidebar-menu-item>a:hover {
-    background-color: #4634ff59;
+    background-color: #141E30;
 }
 
 .sidebar[class*="bg--"] .sidebar__menu .sidebar-menu-item .menu-icon,
@@ -5931,7 +5931,7 @@ th.w-85 {
 }
 
 .sidebar[class*="bg--"] .sidebar__menu .sidebar-menu-item .side-menu--open {
-    background-color: #4634ff !important;
+    background-color: #0000006e !important;
 }
 
 .sidebar[class*="bg--"] .sidebar__menu .sidebar-dropdown>a::before {
@@ -6095,8 +6095,8 @@ th.w-85 {
 }
 
 .navbar-search .navbar-search-field:focus {
-    border-color: #4634ff;
-    box-shadow: 0 0 5px #4634ff80;
+    border-color: #0000006e;
+    box-shadow: 0 0 5px #0000006e;
 }
 
 .navbar-search i {

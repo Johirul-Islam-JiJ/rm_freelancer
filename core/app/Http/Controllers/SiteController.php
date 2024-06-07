@@ -31,10 +31,12 @@ class SiteController extends Controller
         }
         $pageTitle  = 'Home';
         $products   = Service::active()->sorting()->featured()->userActiveCheck()->checkData()->with(['user', 'user.level']);
+        $seo = Service::where('category_id', 1)->get()->take(4);
+        $digitalMarketing = Service::where('category_id', 2)->get()->take(4);
         $priceRange = $this->priceRangeCalc($products);
-        $products   = $products->paginate(getPaginate());
+        $products   = $products->paginate(getPaginate(4));
         $type       = 'service';
-        return view($this->activeTemplate . 'home', compact('pageTitle', 'products', 'priceRange', 'type'));
+        return view($this->activeTemplate . 'home', compact('pageTitle', 'products', 'priceRange', 'type','seo','digitalMarketing'));
     }
 
     public function fileDownload($fileName, $type)
@@ -87,6 +89,60 @@ class SiteController extends Controller
         $user = auth()->user();
         return view($this->activeTemplate . 'contact', compact('pageTitle', 'user'));
     }
+    public function helpDesk()
+    {
+        $pageTitle = "Help Desk";
+        $user = auth()->user();
+        return view($this->activeTemplate . 'help_desk', compact('pageTitle', 'user'));
+    }
+
+    public function helpSubmit(Request $request)
+    {
+        $this->validate($request, [
+            'name'    => 'required',
+            'email'   => 'required',
+            'subject' => 'required|string|max:255',
+            'message' => 'required',
+            'order_id' => 'nullable',
+        ]);
+
+        if (!verifyCaptcha()) {
+            $notify[] = ['error', 'Invalid captcha provided'];
+            return back()->withNotify($notify);
+        }
+
+        $request->session()->regenerateToken();
+
+        $random = getNumber();
+
+        $ticket           = new SupportTicket();
+        $ticket->user_id  = auth()->id() ?? 0;
+        $ticket->order_id = $request->order_id;
+        $ticket->name     = $request->name;
+        $ticket->email    = $request->email;
+        $ticket->priority = Status::PRIORITY_MEDIUM;
+
+        $ticket->ticket     = $random;
+        $ticket->subject    = $request->subject;
+        $ticket->last_reply = Carbon::now();
+        $ticket->status     = Status::TICKET_OPEN;
+        $ticket->save();
+
+        $adminNotification            = new AdminNotification();
+        $adminNotification->user_id   = auth()->user() ? auth()->user()->id : 0;
+        $adminNotification->title     = 'A new contact message has been submitted';
+        $adminNotification->click_url = urlPath('admin.ticket.view', $ticket->id);
+        $adminNotification->save();
+
+        $message                    = new SupportMessage();
+        $message->support_ticket_id = $ticket->id;
+        $message->message           = $request->message;
+        $message->save();
+
+        $notify[] = ['success', 'Ticket created successfully!'];
+
+        return to_route('ticket.view', [$ticket->ticket])->withNotify($notify);
+    }
 
     public function contactSubmit(Request $request)
     {
@@ -95,6 +151,7 @@ class SiteController extends Controller
             'email'   => 'required',
             'subject' => 'required|string|max:255',
             'message' => 'required',
+            'order_id' => 'nullable',
         ]);
 
         if (!verifyCaptcha()) {

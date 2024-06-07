@@ -1,4 +1,35 @@
 {
+
+    "banner": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Banner Section",
+        "content": {
+            "images": {
+                "image": {
+                    "size": "1920x480"
+                }
+            },
+            "heading": "text",
+            "subheading":"text"
+        }
+    },
+
+    "subscriber": {
+        "builder": true,
+        "no_selection": true,
+        "name": "Subscriber Section",
+        "content": {
+            "images": {
+                "image": {
+                    "size": "1020x380"
+                }
+            },
+            "heading": "text",
+            "subheading":"text"
+        }
+    },
+
     "bg_image": {
         "builder": true,
         "no_selection":true,

@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers\Buyer;
 
-use App\Constants\Status;
-use App\Http\Controllers\Controller;
-use App\Models\Booking;
-use App\Models\Chat;
-use App\Models\ExtraService;
 use App\Models\Job;
+use App\Models\Chat;
 use App\Models\JobBid;
-use App\Models\Transaction;
+use App\Models\Booking;
 use App\Models\WorkFile;
+use App\Constants\Status;
+use App\Models\Transaction;
+use App\Models\ExtraService;
+use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
 
 class BuyerController extends Controller
 {
@@ -38,6 +39,26 @@ class BuyerController extends Controller
         $bookedServices = Booking::where('service_id', '!=', 0)->where('buyer_id', auth()->id())->with(['service', 'seller'])->latest()->paginate(getPaginate());
 
         return view($this->activeTemplate . 'user.service.booking_list', compact('pageTitle', 'bookedServices'));
+    }
+
+    public function pendingOrder()
+    {
+        $pageTitle = 'Service Booking List';
+        $bookedServices = Booking::where('service_id', '!=', 0)->where('status', Status::PENDING)->where('buyer_id', auth()->id())->with(['service', 'seller'])->latest()->paginate(getPaginate());
+        return view($this->activeTemplate . 'user.service.pending_order', compact('pageTitle', 'bookedServices'));
+    }
+
+    public function statusOrder(Request $request, $status = null)
+    {
+        $status = $status ?? Status::WORKING_COMPLETED;
+        $pageTitle = 'Service Booking List';
+        $bookedServices = Booking::where('service_id', '!=', 0)
+            ->where('buyer_id', auth()->id())
+            ->where('working_status', $status)
+            ->with(['service', 'buyer'])
+            ->orderBy('id', 'desc')
+            ->paginate(getPaginate());
+        return view($this->activeTemplate . 'user.service.order_status', compact('pageTitle', 'bookedServices'));
     }
 
     public function bookedServiceDetails($orderNumber)

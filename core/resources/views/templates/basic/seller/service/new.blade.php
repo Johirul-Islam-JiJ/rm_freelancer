@@ -15,7 +15,7 @@
             </div>
             <div class="card-body row  pt-3">
                 <div class="form-group col-12">
-                    <label>@lang('Name')</label>
+                    <label>@lang('Service Title')</label>
                     <input type="text" name="name" maxlength="255" value="{{old('name')}}" class="form-control"  required>
                 </div>
                 <div class="form-group col-lg-6">
@@ -38,13 +38,13 @@
                       <span class="input-group-text">{{__($general->cur_text)}}</span>
                     </div>
                 </div>
-                <div class="form-group col-lg-6">
+                {{-- <div class="form-group col-lg-6">
                     <label>@lang('Max Order Quantity')</label>
                     <div class="input-group">
                         <input type="number" min="1" class="form-control" name="max_order_qty" value="{{old('max_order_qty')}}"  required>
                         <span class="input-group-text">@lang('Unit(s)')</span>
                     </div>
-                </div>
+                </div> --}}
                 <div class="form-group col-lg-6">
                     <label>@lang('Delivery Time')</label>
                     <div class="input-group">
@@ -52,15 +52,16 @@
                         <span class="input-group-text">@lang('Day(s)')</span>
                     </div>
                 </div>
-                <div class="form-group col-lg-6  select2Tag">
+                <div class="form-group col-lg-12 select2Tag">
                     <label>@lang('Tag')</label>
-                    <select class="form-control select2" name="tag[]" multiple="multiple" required>
-                        @foreach (old('tag',[]) as $oldTag)
-                            <option value="{{ $tag }}">{{ __($tag) }}</option>
+                    <select class="form-control select2" name="tag[]" multiple="multiple">
+                        @foreach (old('tag', []) as $oldTag)
+                            <option value="{{ $oldTag }}">{{ __($oldTag) }}</option>
                         @endforeach
                     </select>
-                    <small>@lang('Minimum 3 & maximum 5 tag.')</small>
+                    <small>@lang('Minimum 3 & maximum 5 tags.')</small>
                 </div>
+                
                 <div class="form-group col-lg-12">
                     <label>@lang('Include Feature')</label>
                     <div class="d-flex gap-3 flex-wrap">
@@ -72,10 +73,17 @@
                         @endforeach
                     </div>
                 </div>
+
+
                 <div class="form-group col-xl-12 col-lg-12 form-group">
                     <label class="required">@lang('Description')</label>
                     <textarea class="form-control bg--gray nicEdit" name="description">{{old('description')}}</textarea>
                 </div>
+                <div class="form-group col-xl-12 col-lg-12 form-group">
+                    <label class="required">@lang('Requirement')</label>
+                    <textarea class="form-control bg--gray nicEdit" name="requirement">{{old('requirement')}}</textarea>
+                </div>
+
             </div>
 
         </div>

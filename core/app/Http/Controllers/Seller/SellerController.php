@@ -2,24 +2,29 @@
 
 namespace App\Http\Controllers\Seller;
 
-use App\Http\Controllers\Controller;
-use App\Constants\Status;
-use App\Models\Booking;
 use App\Models\Chat;
+use App\Models\User;
 use App\Models\JobBid;
+use App\Models\Booking;
 use App\Models\Service;
 use App\Models\Software;
-use App\Models\Transaction;
-use App\Models\Withdrawal;
 use App\Models\WorkFile;
+use App\Constants\Status;
+use App\Models\Withdrawal;
+use App\Models\Transaction;
+use App\Http\Controllers\Controller;
 
 class SellerController extends Controller
 {
     public function home()
     {
+
+        if (auth()->user()->user_type !== 1) {
+            $notify[] = ['error', 'You do not have permission to access this page.'];
+            return back()->withNotify($notify);
+        }
         $pageTitle    = 'Seller Dashboard';
         $authId       = auth()->id();
-
         $transactions = Transaction::where('user_id', $authId)->orderBy('id','desc')->limit(10)->get();
 
         $totalServiceCount     = Service::where('user_id', $authId)->count();

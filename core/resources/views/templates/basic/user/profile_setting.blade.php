@@ -1,87 +1,128 @@
-@extends($activeTemplate.'layouts.master')
+@extends($activeTemplate . 'layouts.master')
 @section('content')
-<div class="row">
-    <div class="col-12">
-        <form class="user-profile-form" action="" method="POST" enctype="multipart/form-data">
-            @csrf
-            <div class="card custom--card">
-                <div class="profile-settings-wrapper">
-                    <div class="preview-thumb profile-wallpaper">
-                        <div class="avatar-preview">
-                            <div class="profilePicPreview bg_img" data-background="{{ getImage(getFilePath('userBgImage').'/'.$user->bg_image, getFileSize('userBgImage')) }}"></div>
-                        </div>
-                        <div class="avatar-edit">
-                            <input type='file' class="profilePicUpload" name="bg_image" id="profilePicUpload1" accept=".png, .jpg, .jpeg" />
-                            <label for="profilePicUpload1"><i class="las la-cloud-upload-alt me-1"></i> @lang('Update')</label>
-                        </div>
-                    </div>
-                    <div class="profile-thumb-content">
-                        <div class="preview-thumb profile-thumb">
+    <div class="row">
+        <div class="col-12">
+
+            {{-- @dd($user); --}}
+            <form class="user-profile-form" action="" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="card custom--card">
+                    <div class="profile-settings-wrapper">
+                        <div class="preview-thumb profile-wallpaper">
                             <div class="avatar-preview">
-                                <div class="profilePicPreview bg_img" data-background="{{ getImage(getFilePath('userProfile').'/'.$user->image, getFileSize('userProfile')) }}">
+                                <div class="profilePicPreview bg_img"
+                                    data-background="{{ getImage(getFilePath('userBgImage') . '/' . $user->bg_image, getFileSize('userBgImage')) }}">
                                 </div>
                             </div>
                             <div class="avatar-edit">
-                                <input type='file' class="profilePicUpload" name="image" id="profilePicUpload2"
+                                <input type='file' class="profilePicUpload" name="bg_image" id="profilePicUpload1"
                                     accept=".png, .jpg, .jpeg" />
-                                <label for="profilePicUpload2"><i class="las la-pen"></i></label>
+                                <label for="profilePicUpload1"><i class="las la-cloud-upload-alt me-1"></i>
+                                    @lang('Update')</label>
                             </div>
                         </div>
-                        <div class="profile-content">
-                            <h6 class="username">{{__($user->username)}}</h6>
-                            <ul class="user-info-list mt-md-2">
-                                <li><i class="las la-envelope"></i> {{$user->email}}</li>
-                                <li><i class="las la-phone"></i> {{$user->mobile}}</li>
-                                <li><i class="las la-map-marked-alt"></i> {{__(@$user->address->country)}}</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-                <div class="card-body">
-                    <div class="card-form-wrapper">
-                        <div class="row justify-content-center">
-                            <div class="col-xl-6 col-lg-6 col-md-6 form-group">
-                                <label>@lang('First Name')</label>
-                                <input type="text" name="firstname" value="{{__($user->firstname)}}" class="form-control" required>
+                        <div class="profile-thumb-content">
+                            <div class="preview-thumb profile-thumb">
+                                <div class="avatar-preview">
+                                    <div class="profilePicPreview bg_img"
+                                        data-background="{{ getImage(getFilePath('userProfile') . '/' . $user->image, getFileSize('userProfile')) }}">
+                                    </div>
+                                </div>
+                                <div class="avatar-edit">
+                                    <input type='file' class="profilePicUpload" name="image" id="profilePicUpload2"
+                                        accept=".png, .jpg, .jpeg" />
+                                    <label for="profilePicUpload2"><i class="las la-pen"></i></label>
+                                </div>
                             </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 form-group">
-                                <label>@lang('Last Name')</label>
-                                <input type="text" name="lastname" value="{{__($user->lastname)}}" class="form-control" required>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 form-group">
-                                <label>@lang('Designation')</label>
-                                <input type="text" name="designation" value="{{__(@$user->designation)}}" class="form-control" required>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 form-group">
-                                <label>@lang('Address')</label>
-                                <input type="text" name="address" value="{{__(@$user->address->address)}}" class="form-control" required>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 form-group">
-                                <label>@lang('State')</label>
-                                <input type="text" name="state" class="form-control" value="{{__(@$user->address->state)}}" required>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 form-group">
-                                <label>@lang('Zip Code')</label>
-                                <input type="text" name="zip" class="form-control" value="{{__(@$user->address->zip)}}" required>
-                            </div>
-                            <div class="col-xl-4 col-lg-4 col-md-4 form-group">
-                                <label>@lang('City')</label>
-                                <input type="text" name="city" class="form-control" value="{{__(@$user->address->city)}}" required>
-                            </div>
-                            <div class="form-group">
-                                <label>@lang('About Me')</label>
-                                <textarea class="form-control" name="about_me" rows="5" required>{{__(@$user->about_me)}}</textarea>
-                            </div>
-                            <div class="col-xl-12">
-                                <button type="submit" class="submit-btn mt-20 w-100">@lang('Update Profile')</button>
+                            <div class="profile-content">
+                                <h6 class="username">{{ __($user->username) }}</h6>
+                                <ul class="user-info-list mt-md-2">
+                                    <li><i class="las la-envelope"></i> {{ $user->email }}</li>
+                                    <li><i class="las la-phone"></i> {{ $user->mobile }}</li>
+                                    <li><i class="las la-map-marked-alt"></i> {{ __(@$user->address->country) }}</li>
+                                </ul>
                             </div>
                         </div>
                     </div>
+                    <div class="card-body">
+                        <div class="card-form-wrapper">
+                            <div class="row justify-content-center">
+                                <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                    <label>@lang('First Name')</label>
+                                    <input type="text" name="firstname" value="{{ __($user->firstname) }}"
+                                        class="form-control" required>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                    <label>@lang('Last Name')</label>
+                                    <input type="text" name="lastname" value="{{ __($user->lastname) }}"
+                                        class="form-control" required>
+                                </div>
+
+                                @if (!$user->country_code && !$user->mobile)
+                                    <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                        <label>@lang('Country')</label>
+                                        <select class="form-control" name="country">
+                                            @foreach ($countries as $key => $country)
+                                                <option data-mobile_code="{{ $country->dial_code }}"
+                                                    data-code="{{ $key }}" value="{{ $country->country }}"
+                                                    {{ $country->country === $user->country ? 'selected' : '' }}>
+                                                    {{ __($country->country) }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+
+                                    <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                        <label>@lang('Mobile')</label>
+                                        <div class="input-group country-code">
+                                            <span class="input-group-text mobile-code">{{ $user->mobile_code }}</span>
+                                            <input class="form-control checkUser" name="mobile" type="number"
+                                                value="{{ $user->mobile }}">
+                                            <input name="mobile_code" type="hidden" value="{{ $user->mobile_code }}">
+                                            <input name="country_code" type="hidden" value="{{ $user->country_code }}">
+                                        </div>
+                                        <small class="text--danger mobileExist"></small>
+                                    </div>
+                                @endif
+
+                                <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                    <label>@lang('Designation')</label>
+                                    <input type="text" name="designation" value="{{ __(@$user->designation) }}"
+                                        class="form-control" required>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 form-group">
+                                    <label>@lang('Address')</label>
+                                    <input type="text" name="address" value="{{ __(@$user->address->address) }}"
+                                        class="form-control" required>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 form-group">
+                                    <label>@lang('State')</label>
+                                    <input type="text" name="state" class="form-control"
+                                        value="{{ __(@$user->address->state) }}" required>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 form-group">
+                                    <label>@lang('Zip Code')</label>
+                                    <input type="text" name="zip" class="form-control"
+                                        value="{{ __(@$user->address->zip) }}" required>
+                                </div>
+                                <div class="col-xl-4 col-lg-4 col-md-4 form-group">
+                                    <label>@lang('City')</label>
+                                    <input type="text" name="city" class="form-control"
+                                        value="{{ __(@$user->address->city) }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label>@lang('About Me')</label>
+                                    <textarea class="form-control" name="about_me" rows="5" required>{{ __(@$user->about_me) }}</textarea>
+                                </div>
+                                <div class="col-xl-12">
+                                    <button type="submit" class="submit-btn mt-20 w-100">@lang('Update Profile')</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-        </form>
+            </form>
+        </div>
     </div>
-</div>
 @endsection
 
 @push('script')
@@ -91,7 +132,7 @@
         function proPicURL(input) {
             if (input.files && input.files[0]) {
                 var reader = new FileReader();
-                reader.onload = function (e) {
+                reader.onload = function(e) {
                     var preview = $(input).parents('.preview-thumb').find('.profilePicPreview');
                     $(preview).css('background-image', 'url(' + e.target.result + ')');
                     $(preview).addClass('has-image');
@@ -101,13 +142,65 @@
                 reader.readAsDataURL(input.files[0]);
             }
         }
-        $(".profilePicUpload").on('change', function () {
+        $(".profilePicUpload").on('change', function() {
             proPicURL(this);
         });
 
-        $(".remove-image").on('click', function () {
+        $(".remove-image").on('click', function() {
             $(".profilePicPreview").css('background-image', 'none');
             $(".profilePicPreview").removeClass('has-image');
         })
+
+
+        "use strict";
+
+        (function($) {
+            @if ($mobileCode)
+                $(`option[data-code={{ $mobileCode }}]`).attr('selected', '');
+            @endif
+
+            $('select[name=country]').change(function() {
+                $('input[name=mobile_code]').val($('select[name=country] :selected').data('mobile_code'));
+                $('input[name=country_code]').val($('select[name=country] :selected').data('code'));
+                $('.mobile-code').text('+' + $('select[name=country] :selected').data('mobile_code'));
+            });
+            $('input[name=mobile_code]').val($('select[name=country] :selected').data('mobile_code'));
+            $('input[name=country_code]').val($('select[name=country] :selected').data('code'));
+            $('.mobile-code').text('+' + $('select[name=country] :selected').data('mobile_code'));
+
+            $('.checkUser').on('focusout', function(e) {
+                var url = '{{ route('user.checkUser') }}';
+                var value = $(this).val();
+                var token = '{{ csrf_token() }}';
+                if ($(this).attr('name') == 'mobile') {
+                    var mobile = `${$('.mobile-code').text().substr(1)}${value}`;
+                    var data = {
+                        mobile: mobile,
+                        _token: token
+                    }
+                }
+                if ($(this).attr('name') == 'email') {
+                    var data = {
+                        email: value,
+                        _token: token
+                    }
+                }
+                if ($(this).attr('name') == 'username') {
+                    var data = {
+                        username: value,
+                        _token: token
+                    }
+                }
+                $.post(url, data, function(response) {
+                    if (response.data != false && response.type == 'email') {
+                        $('#existModalCenter').modal('show');
+                    } else if (response.data != false) {
+                        $(`.${response.type}Exist`).text(`${response.type} already exist`);
+                    } else {
+                        $(`.${response.type}Exist`).text('');
+                    }
+                });
+            });
+        })(jQuery);
     </script>
 @endpush

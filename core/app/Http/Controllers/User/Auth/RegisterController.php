@@ -41,6 +41,7 @@ class RegisterController extends Controller
 
     protected function validator(array $data)
     {
+
         $general = gs();
         $passwordValidation = Password::min(6);
         if ($general->secure_password) {
@@ -55,14 +56,17 @@ class RegisterController extends Controller
         $mobileCodes = implode(',',array_column($countryData, 'dial_code'));
         $countries = implode(',',array_column($countryData, 'country'));
         $validate = Validator::make($data, [
+            'firstname' => 'nullable|string|min:2',
+            // 'lastname' => 'nullable|string|min:2',
             'email' => 'required|string|email|unique:users',
-            'mobile' => 'required|regex:/^([0-9]*)$/',
+            'mobile' => 'nullable|regex:/^([0-9]*)$/',
             'password' => ['required','confirmed',$passwordValidation],
             'username' => 'required|unique:users|min:6',
             'captcha' => 'sometimes|required',
-            'mobile_code' => 'required|in:'.$mobileCodes,
-            'country_code' => 'required|in:'.$countryCodes,
-            'country' => 'required|in:'.$countries,
+            'mobile_code' => 'nullable|in:'.$mobileCodes,
+            'country_code' => 'nullable|in:'.$countryCodes,
+            'country' => 'nullable|in:'.$countries,
+            'type'=>'required',
             'agree' => $agree
         ]);
         return $validate;
@@ -116,9 +120,12 @@ class RegisterController extends Controller
         $user->email = strtolower($data['email']);
         $user->password = Hash::make($data['password']);
         $user->username = $data['username'];
+        $user->firstname = $data['firstname'];
+        // $user->lastname = $data['lastname'];
+        $user->user_type = $data['type'];
         $user->ref_by = $referUser ? $referUser->id : 0;
-        $user->country_code = $data['country_code'];
-        $user->mobile = $data['mobile_code'].$data['mobile'];
+        // $user->country_code = $data['country_code'];
+        // $user->mobile = $data['mobile_code'].$data['mobile'];
         $user->address = [
             'address' => '',
             'state' => '',
@@ -128,7 +135,7 @@ class RegisterController extends Controller
         ];
         $user->kv = $general->kv ? Status::NO : Status::YES;
         $user->ev = $general->ev ? Status::NO : Status::YES;
-        $user->sv = $general->sv ? Status::NO : Status::YES;
+        $user->sv = 1;
         $user->ts = 0;
         $user->tv = 1;
         $user->save();

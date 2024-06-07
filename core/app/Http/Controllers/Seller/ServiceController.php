@@ -21,14 +21,14 @@ class ServiceController extends Controller
     public function index()
     {
         $pageTitle = 'Manage Services';
-        $services  = Service::where('user_id', auth()->id())->orderBy('id', 'desc')->with('category')->searchable(['name'])->paginate(getPaginate());
+        $services = Service::where('user_id', auth()->id())->orderBy('id', 'desc')->with('category')->searchable(['name'])->paginate(getPaginate());
         return view($this->activeTemplate . 'seller.service.index', compact('pageTitle', 'services'));
     }
 
     public function create()
     {
-        $pageTitle  = 'New Service';
-        $features   = Feature::active()->orderBy('id', 'desc')->get();
+        $pageTitle = 'New Service';
+        $features = Feature::active()->orderBy('id', 'desc')->get();
         $categories = Category::active()->orderBy('name')->with('subCategories', function ($q) {
             $q->active();
         })->get();
@@ -37,15 +37,15 @@ class ServiceController extends Controller
 
     public function edit($slug, $id)
     {
-        $pageTitle  = 'Edit Service';
-        $service    = Service::where('id', $id)->where('user_id', auth()->id())->with('extraServices')->firstOrFail();
+        $pageTitle = 'Edit Service';
+        $service = Service::where('id', $id)->where('user_id', auth()->id())->with('extraServices')->firstOrFail();
 
         if ($service->status == Status::CANCELED) {
             $notify[] = ["You can't edit canceled service"];
             return back()->withNotify($notify);
         }
 
-        $features   = Feature::active()->orderBy('id', 'desc')->get();
+        $features = Feature::active()->orderBy('id', 'desc')->get();
         $categories = Category::orderBy('name')->with('subCategories', function ($q) {
             $q->active();
         })->get();
@@ -54,10 +54,6 @@ class ServiceController extends Controller
 
     public function store(Request $request, $id = 0)
     {
-
-
-
-
         $this->serviceValidation($request, $id);
         $check = $this->checkData($request);
 
@@ -67,16 +63,16 @@ class ServiceController extends Controller
         }
 
         if ($id) {
-            $service      = Service::where('id', $id)->where('user_id', auth()->id())->where('status', '!=', Status::CANCELED)->firstOrFail();
+            $service = Service::where('id', $id)->where('user_id', auth()->id())->where('status', '!=', Status::CANCELED)->firstOrFail();
             $notification = 'Service updated successfully';
         } else {
-            $service          = new Service();
+            $service = new Service();
             $service->user_id = auth()->id();
-            $notification     = 'Service added successfully';
+            $notification = 'Service added successfully';
         }
 
         if ($request->hasFile('image')) {
-            $serviceImage   = fileUploader($request->image, getFilePath('service'), getFileSize('service'), @$service->image);
+            $serviceImage = fileUploader($request->image, getFilePath('service'), getFileSize('service'), @$service->image);
             $service->image = $serviceImage;
         }
 
@@ -88,42 +84,43 @@ class ServiceController extends Controller
             }
         }
         if (gs()->post_approval) {
-            $service->status =  Status::APPROVED;
+            $service->status = Status::APPROVED;
         } else {
-            $service->status =  Status::PENDING;
+            $service->status = Status::PENDING;
         }
 
 
-        $service->tag             = $request->tag;
-        $service->name            = $request->name;
-        $service->price           = $request->price;
-        $service->features        = $request->features;
-        $service->description     = $request->description;
-        $service->extra_image     = $extraImage;
-        $service->category_id     = $request->category_id;
-        $service->max_order_qty   = $request->max_order_qty;
-        $service->delivery_time   = $request->delivery_time;
+        $service->tag = $request->tag;
+        $service->name = $request->name;
+        $service->price = $request->price;
+        $service->features = $request->features;
+        $service->description = $request->description;
+        $service->requirement = $request->requirement;
+        $service->extra_image = $extraImage;
+        $service->category_id = $request->category_id;
+        $service->max_order_qty = $request->max_order_qty;
+        $service->delivery_time = $request->delivery_time;
         $service->sub_category_id = $request->sub_category_id;
         $service->save();
 
         $extraService = [];
 
         if ($request->extra_service) {
-            foreach ($request->extra_service as  $requestExtraService) {
+            foreach ($request->extra_service as $requestExtraService) {
                 if (array_key_exists('id', $requestExtraService)) {
-                    $eService = ExtraService::where('service_id',$service->id)->where('id', $requestExtraService['id'])->first();
+                    $eService = ExtraService::where('service_id', $service->id)->where('id', $requestExtraService['id'])->first();
                     if ($eService) {
-                        $eService->name  = $requestExtraService['name'];
+                        $eService->name = $requestExtraService['name'];
                         $eService->price = $requestExtraService['price'];
                         $eService->save();
                     }
                 } else {
-                    $data['name']       = @$requestExtraService['name'];
-                    $data['price']      = @$requestExtraService['price'];
+                    $data['name'] = @$requestExtraService['name'];
+                    $data['price'] = @$requestExtraService['price'];
                     $data['service_id'] = $service->id;
                     $data['created_at'] = now();
                     $data['updated_at'] = now();
-                    $extraService[]     = $data;
+                    $extraService[] = $data;
                 }
             }
         }
@@ -140,14 +137,14 @@ class ServiceController extends Controller
     public function extraServiceUpdate(Request $request, $serviceId, $extraServiceId)
     {
         $request->validate([
-            'extra_name'  => 'required|string|max:255',
+            'extra_name' => 'required|string|max:255',
             'extra_price' => 'required|numeric|gt:0',
         ]);
 
-        $service      = Service::where('id', $serviceId)->where('user_id', auth()->id())->firstOrFail();
+        $service = Service::where('id', $serviceId)->where('user_id', auth()->id())->firstOrFail();
         $extraService = ExtraService::where('id', $extraServiceId)->where('service_id', $service->id)->firstOrFail();
 
-        $extraService->name  = $request->extra_name;
+        $extraService->name = $request->extra_name;
         $extraService->price = $request->extra_price;
         $extraService->save();
 
@@ -157,7 +154,7 @@ class ServiceController extends Controller
 
     public function extraServiceStatus($serviceId, $extraServiceId)
     {
-        $service      = Service::where('id', $serviceId)->where('user_id', auth()->id())->firstOrFail();
+        $service = Service::where('id', $serviceId)->where('user_id', auth()->id())->firstOrFail();
         $extraService = ExtraService::where('id', $extraServiceId)->where('service_id', $service->id)->firstOrFail();
         return ExtraService::changeStatus($extraService->id);
     }
@@ -165,18 +162,38 @@ class ServiceController extends Controller
     public function bookingList()
     {
 
-        $pageTitle      = 'Service Booking List';
+        $pageTitle = 'Service Booking List';
         $bookedServices = Booking::where('seller_id', auth()->id())->with(['service', 'buyer'])->orderBy('id', 'desc')->paginate(getPaginate());
         return view($this->activeTemplate . 'user.service.booking_list', compact('pageTitle', 'bookedServices'));
     }
+    public function pendingOrder()
+    {
+        $pageTitle = 'Service Booking List';
+        $bookedServices = Booking::where('seller_id', auth()->id())->where('status', Status::PENDING)->with(['service', 'buyer'])->orderBy('id', 'desc')->paginate(getPaginate());
+        return view($this->activeTemplate . 'user.service.pending_order', compact('pageTitle', 'bookedServices'));
+    }
+    public function statusOrder(Request $request, $status = null)
+    {
+        $status = $status ?? Status::WORKING_COMPLETED;
+        $pageTitle = 'Service Booking List';
+        $bookedServices = Booking::where('seller_id', auth()->id())
+            ->where('working_status', $status)
+            ->with(['service', 'buyer'])
+            ->orderBy('id', 'desc')
+            ->paginate(getPaginate());
+        return view($this->activeTemplate . 'user.service.order_status', compact('pageTitle', 'bookedServices'));
+    }
+
+
+
 
     public function bookingDetails($orderNumber)
     {
-        $pageTitle      = 'Service Booking Details';
-        $details        = Booking::checkService($orderNumber)->where('seller_id', auth()->id())->with('disputer')->firstOrFail();
-        $extraServices  = ExtraService::where('service_id', $details->service_id)->find(json_decode($details->extra_services));
-        $workFiles      = WorkFile::where('booking_id', $details->id)->orderBy('id', 'desc')->with(['sender', 'receiver'])->paginate(getPaginate());
-        $chats          = Chat::where('booking_id', $details->id)->with('user')->get();
+        $pageTitle = 'Service Booking Details';
+        $details = Booking::checkService($orderNumber)->where('seller_id', auth()->id())->with('disputer')->firstOrFail();
+        $extraServices = ExtraService::where('service_id', $details->service_id)->find(json_decode($details->extra_services));
+        $workFiles = WorkFile::where('booking_id', $details->id)->orderBy('id', 'desc')->with(['sender', 'receiver'])->paginate(getPaginate());
+        $chats = Chat::where('booking_id', $details->id)->with('user')->get();
 
         return view($this->activeTemplate . 'user.service.booking_details', compact('pageTitle', 'details', 'extraServices', 'workFiles', 'chats'));
     }
@@ -185,17 +202,17 @@ class ServiceController extends Controller
     {
         $booking = Booking::checkService($orderNumber)->where('seller_id', auth()->id())->where('status', Status::BOOKING_PENDING)->firstOrFail();
 
-        $booking->status         = Status::BOOKING_APPROVED;
+        $booking->status = Status::BOOKING_APPROVED;
         $booking->working_status = Status::WORKING_INPROGRESS;
-        $booking->updated_at     = now();
+        $booking->updated_at = now();
         $booking->save();
 
         notify($booking->buyer, 'SERVICE_BOOKING_CONFIRMED', [
             'seller_username' => $booking->seller->username,
-            'order_number'    => $booking->order_number,
-            'service_name'    => $booking->service->name,
-            'price'           => showAmount($booking->final_price) . ' ' . gs()->cur_text,
-            'delivery_time'   => showDateTime($booking->created_at->addDays($booking->service->delivery_time), ('M, d - Y'))
+            'order_number' => $booking->order_number,
+            'service_name' => $booking->service->name,
+            'price' => showAmount($booking->final_price) . ' ' . gs()->cur_text,
+            'delivery_time' => showDateTime($booking->created_at->addDays($booking->service->delivery_time), ('M, d - Y'))
         ]);
 
         $notify[] = ['success', 'Booking confirmed successfully'];
@@ -206,31 +223,31 @@ class ServiceController extends Controller
     {
         $booking = Booking::checkService($orderNumber)->where('seller_id', auth()->id())->where('status', Status::BOOKING_PENDING)->with(['buyer', 'service'])->firstOrFail();
 
-        $booking->status         = Status::BOOKING_REFUNDED;
+        $booking->status = Status::BOOKING_REFUNDED;
         $booking->working_status = null;
-        $booking->updated_at     = now();
+        $booking->updated_at = now();
         $booking->save();
 
         $booking->buyer->balance += $booking->final_price;
         $booking->buyer->save();
 
-        $transaction               = new Transaction();
-        $transaction->user_id      = $booking->buyer->id;
-        $transaction->amount       = $booking->final_price;
+        $transaction = new Transaction();
+        $transaction->user_id = $booking->buyer->id;
+        $transaction->amount = $booking->final_price;
         $transaction->post_balance = $booking->buyer->balance;
-        $transaction->charge       = 0;
-        $transaction->trx_type     = '+';
-        $transaction->details      = 'Added as refund for a service named ' . $booking->service->name . ' by System';
-        $transaction->trx          = $booking->order_number;
-        $transaction->remark       = 'booking_refunded';
+        $transaction->charge = 0;
+        $transaction->trx_type = '+';
+        $transaction->details = 'Added as refund for a service named ' . $booking->service->name . ' by System';
+        $transaction->trx = $booking->order_number;
+        $transaction->remark = 'booking_refunded';
         $transaction->save();
 
         notify($booking->buyer, 'SERVICE_BOOKING_CANCELED', [
             'seller_username' => $booking->seller->username,
-            'order_number'    => $booking->order_number,
-            'service_name'    => $booking->service->name,
-            'refund_amount'   => showAmount($booking->final_price) . ' ' . gs()->cur_text,
-            'post_balance'    => showAmount($booking->buyer->balance) . ' ' . gs()->cur_text,
+            'order_number' => $booking->order_number,
+            'service_name' => $booking->service->name,
+            'refund_amount' => showAmount($booking->final_price) . ' ' . gs()->cur_text,
+            'post_balance' => showAmount($booking->buyer->balance) . ' ' . gs()->cur_text,
         ]);
 
         $notify[] = ['success', 'Booking canceled and refunded to buyer successfully'];
@@ -242,27 +259,28 @@ class ServiceController extends Controller
         $imageValidation = $id ? 'nullable' : 'required';
 
         $request->validate([
-            'image'                 => [$imageValidation, 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
-            'extra_image.*'         => ['nullable', 'image', 'max:2048', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
-            'name'                  => 'required|string|max:255',
-            'category_id'           => 'required|integer|gt:0',
-            'sub_category_id'       => 'required|integer|gt:0',
-            'features.*'            => 'nullable|integer|gt:0',
-            'price'                 => 'required|numeric|gt:0',
-            'max_order_qty'         => 'required|integer|min:1',
-            'delivery_time'         => 'required|integer|min:1',
-            'tag'                   => 'required|array|min:3|max:15',
-            'description'           => 'required',
-            'extra_service.*.name'  => 'nullable|string|max:255',
+            'image' => [$imageValidation, 'image', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
+            'extra_image.*' => ['nullable', 'image', 'max:2048', new FileTypeValidate(['jpg', 'jpeg', 'png'])],
+            'name' => 'required|string|max:255',
+            'category_id' => 'required|integer|gt:0',
+            'sub_category_id' => 'required|integer|gt:0',
+            'features.*' => 'nullable|integer|gt:0',
+            'price' => 'required|numeric|between:1,999',
+            'max_order_qty' => 'nullable|integer|between:1,999',
+            'delivery_time' => 'required|integer|between:1,60',
+            'tag' => 'nullable|array|min:3|max:15',
+            'description' => 'required',
+            'requirement' => 'required',
+            'extra_service.*.name' => 'nullable|string|max:255',
             'extra_service.*.price' => 'nullable|numeric|gte:0',
         ]);
     }
 
     protected function checkData($request)
     {
-        $category    = Category::active();
+        $category = Category::active();
         $subcategory = SubCategory::active();
-        $features    = Feature::active();
+        $features = Feature::active();
 
         $category = $category->where('id', $request->category_id)->first();
 

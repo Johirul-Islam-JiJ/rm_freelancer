@@ -24,7 +24,7 @@ class ItemController extends Controller
         $priceRange = $data['price_range'];
         $products   = $query->paginate(getPaginate());
         $type       = 'service';
-        return view($this->activeTemplate . 'home', compact('pageTitle', 'products', 'priceRange', 'type'));
+        return view($this->activeTemplate . 'service.index', compact('pageTitle', 'products', 'priceRange', 'type'));
     }
 
     public function software()
@@ -35,7 +35,7 @@ class ItemController extends Controller
         $priceRange = $data['price_range'];
         $products   = $query->paginate(getPaginate());
         $type       = 'software';
-        return view($this->activeTemplate . 'home', compact('pageTitle', 'products', 'priceRange', 'type'));
+        return view($this->activeTemplate . 'service.index', compact('pageTitle', 'products', 'priceRange', 'type'));
     }
 
     public function job()
@@ -46,7 +46,7 @@ class ItemController extends Controller
         $priceRange = $data['price_range'];
         $products   = $query->paginate(getPaginate());
         $type       = 'job';
-        return view($this->activeTemplate . 'home', compact('pageTitle', 'products', 'priceRange', 'type'));
+        return view($this->activeTemplate . 'service.index', compact('pageTitle', 'products', 'priceRange', 'type'));
     }
 
     public function serviceDetails($slug, $id)

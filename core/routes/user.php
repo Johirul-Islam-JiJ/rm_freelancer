@@ -158,6 +158,10 @@ Route::middleware('auth')->name('user.')->group(function () {
 
                 Route::controller('ServiceController')->name('booking.service.')->prefix('service/booking')->group(function () {
                     Route::get('list', 'bookingList')->name('list');
+                    Route::get('pending', 'pendingOrder')->name('pending');
+                    Route::get('list/{status?}', 'statusOrder')->name('order');
+
+
                     Route::post('confirm/{orderNumber}', 'bookingConfirm')->name('confirm');
                     Route::post('cancel/{orderNumber}', 'bookingCancel')->name('cancel');
                     Route::get('details/{orderNumber}', 'bookingDetails')->name('details');
@@ -183,6 +187,8 @@ Route::middleware('auth')->name('user.')->group(function () {
                         Route::get('/', 'bookedService')->name('services');
                         Route::get('details/{orderNumber}', 'bookedServiceDetails')->name('details');
                         Route::post('make/completed/{orderNumber}', 'serviceCompleted')->name('completed');
+                        Route::get('pending', 'pendingOrder')->name('pending');
+                        Route::get('list/{status?}', 'statusOrder')->name('order');
                     });
 
                     Route::get('software/purchase/log', 'softwarePurchase')->name('software.log');

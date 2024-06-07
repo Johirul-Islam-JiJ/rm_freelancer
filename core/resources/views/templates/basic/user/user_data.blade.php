@@ -21,7 +21,7 @@
                         <form class="account-form" method="POST" action="{{ route('user.data.submit') }}">
                             @csrf
                             <div class="row ml-b-20">
-                                <div class="col-lg-6 form-group">
+                                {{-- <div class="col-lg-6 form-group">
                                     <label>@lang('First Name')</label>
                                     <input class="form-control form--control" name="firstname" type="text" value="{{ old('firstname') }}" required>
                                 </div>
@@ -29,7 +29,7 @@
                                 <div class="col-lg-6 form-group">
                                     <label>@lang('Last Name')</label>
                                     <input class="form-control form--control" name="lastname" type="text" value="{{ old('lastname') }}" required>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-lg-6 form-group">
                                     <label>@lang('Address')</label>

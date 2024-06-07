@@ -14,12 +14,20 @@ class ProfileController extends Controller
     {
         $pageTitle = "Profile Setting";
         $user = auth()->user();
-        return view($this->activeTemplate. 'user.profile_setting', compact('pageTitle','user'));
+        $info = json_decode(json_encode(getIpInfo()), true);
+        $mobileCode = @implode(',', $info['code']);
+        $countries = json_decode(file_get_contents(resource_path('views/partials/country.json')));
+        return view($this->activeTemplate. 'user.profile_setting', compact('pageTitle','user','mobileCode','countries'));
     }
 
     public function submitProfile(Request $request)
     {
         $imageValidation = ['nullable', 'image', new FileTypeValidate(['jpeg', 'jpg', 'png'])];
+
+        $countryData = (array)json_decode(file_get_contents(resource_path('views/partials/country.json')));
+        $countryCodes = implode(',', array_keys($countryData));
+        $mobileCodes = implode(',',array_column($countryData, 'dial_code'));
+        $countries = implode(',',array_column($countryData, 'country'));
 
         $request->validate([
             'firstname'   => 'required|string|max:40',
@@ -28,6 +36,10 @@ class ProfileController extends Controller
             'about_me'    => 'required|string',
             'image'       => $imageValidation,
             'bg_image'    => $imageValidation,
+            'mobile_code' => 'nullable|in:'.$mobileCodes,
+            'country_code' => 'nullable|in:'.$countryCodes,
+            'country' => 'nullable|in:'.$countries,
+            'mobile' => 'nullable|regex:/^([0-9]*)$/'
         ],[
             'firstname.required'=>'First name field is required',
             'lastname.required'=>'Last name field is required'
@@ -39,6 +51,8 @@ class ProfileController extends Controller
         $user->lastname    = $request->lastname;
         $user->designation = $request->designation;
         $user->about_me    = $request->about_me;
+        $user->country_code = $request->country_code;
+        $user->mobile = $request['mobile_code'].$request['mobile'];
         $user->address     = [
             'address' => $request->address,
             'state' => $request->state,

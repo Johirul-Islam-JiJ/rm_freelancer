@@ -5,14 +5,16 @@
         $bgImageContent = getContent('bg_image.content', true);
     @endphp
 
-    <section class="account-section ptb-80 bg-overlay-white bg_img" data-background="{{ getImage('assets/images/frontend/bg_image/' . @$bgImageContent->data_values->image, '1920x1200') }}">
+    <section class="account-section ptb-80 bg-overlay-white bg_img"
+        data-background="{{ getImage('assets/images/frontend/bg_image/' . @$bgImageContent->data_values->image, '1920x1200') }}">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-lg-6 col-md-12">
                     <div class="account-form-area">
                         <div class="account-logo-area text-center">
                             <div class="account-logo">
-                                <a href="{{ route('home') }}"><img src="{{ siteLogo() }}" alt="{{ __($general->sitename) }}"></a>
+                                <a href="{{ route('home') }}"><img src="{{ siteLogo() }}"
+                                        alt="{{ __($general->sitename) }}"></a>
                             </div>
                         </div>
                         <div class="account-header text-center">
@@ -24,22 +26,36 @@
                                 @if (session()->get('reference') != null)
                                     <div class="form-group">
                                         <label>@lang('Reference By')</label>
-                                        <input class="form-control form--control" name="referBy" type="text" value="{{ session()->get('reference') }}" readonly>
+                                        <input class="form-control form--control" name="referBy" type="text"
+                                            value="{{ session()->get('reference') }}" readonly>
                                     </div>
                                 @endif
+                                <div class="col-lg-12 form-group">
+                                    <label>@lang('Full Name')</label>
+                                    <input class="form-control form--control" name="firstname" type="text"
+                                        value="{{ old('firstname') }}" required>
+                                </div>
+
+                                {{-- <div class="col-lg-6 form-group">
+                                    <label>@lang('Last Name')</label>
+                                    <input class="form-control form--control" name="lastname" type="text"
+                                        value="{{ old('lastname') }}" required>
+                                </div> --}}
 
                                 <div class="col-lg-6 form-group">
                                     <label>@lang('Username')</label>
-                                    <input class="form-control form--control checkUser" name="username" type="text" value="{{ old('username') }}" required>
+                                    <input class="form-control form--control checkUser" name="username" type="text"
+                                        value="{{ old('username') }}" required>
                                     <small class="text--danger usernameExist"></small>
                                 </div>
 
                                 <div class="col-lg-6 form-group">
                                     <label>@lang('E-Mail Address')</label>
-                                    <input class="form-control form--control checkUser" name="email" type="text" value="{{ old('email') }}" required>
+                                    <input class="form-control form--control checkUser" name="email" type="text"
+                                        value="{{ old('email') }}" required>
                                 </div>
 
-                                <div class="col-lg-6 form-group">
+                                {{-- <div class="col-lg-6 form-group">
                                     <label>@lang('Country')</label>
                                     <select class="form-control form--control" name="country" required>
                                         @foreach ($countries as $key => $country)
@@ -57,17 +73,38 @@
                                         <input name="country_code" type="hidden">
                                     </div>
                                     <small class="text--danger mobileExist"></small>
-                                </div>
+                                </div> --}}
 
                                 <div class="col-lg-6 form-group">
                                     <label>@lang('Password')</label>
-                                    <input class="form-control form--control @if ($general->secure_password) secure-password @endif" name="password" type="password" required>
+                                    <input
+                                        class="form-control form--control @if ($general->secure_password) secure-password @endif"
+                                        name="password" type="password" required>
                                 </div>
                                 <div class="col-lg-6 form-group">
                                     <label>@lang('Confirm Password')</label>
-                                    <input class="form-control form--control" name="password_confirmation" type="password" required>
+                                    <input class="form-control form--control" name="password_confirmation" type="password"
+                                        required>
                                 </div>
 
+                                <div class="col-lg-6 form-group text-center">
+                                    <input type="radio" class="btn-check" name="type" id="danger-outlined"
+                                        autocomplete="off" checked value="2">
+                                    <label class="btn btn-outline-danger" for="danger-outlined"
+                                        style="color: #0000009c;
+                                    border: 1px solid #034F4F !important;
+                                    width: 100%;">@lang('Buyer')</label>
+                                </div>
+
+                                <div class="col-lg-6 form-group text-center">
+                                    <input type="radio" class="btn-check" name="type" id="success-outlined"
+                                        autocomplete="off"value="1">
+                                    <label class="btn btn-outline-success" for="success-outlined"
+                                        style="color: #0000009c;
+                                    border: 1px solid #034F4F !important;
+                                    width: 100%;">@lang('Seller')</label>
+                                </div>
+                                
                                 <x-captcha />
 
                                 @if ($general->agree)
@@ -76,7 +113,8 @@
                                             <input id="agree" name="agree" type="checkbox">
                                             <label for="agree">@lang('I agree with') <span>
                                                     @foreach ($policyPages as $policy)
-                                                        <a class="text--base" href="{{ route('policy.pages', [slug($policy->data_values->title), $policy->id]) }}">{{ __($policy->data_values->title) }}</a>
+                                                        <a class="text--base"
+                                                            href="{{ route('policy.pages', [slug($policy->data_values->title), $policy->id]) }}">{{ __($policy->data_values->title) }}</a>
                                                         @if (!$loop->last)
                                                             ,
                                                         @endif
@@ -92,7 +130,8 @@
 
                                 <div class="col-lg-12 text-center">
                                     <div class="account-item mt-10">
-                                        <label>@lang('Already Have An Account')? <a class="text--base" href="{{ route('user.login') }}">@lang('Sign In')</a></label>
+                                        <label>@lang('Already Have An Account')? <a class="text--base"
+                                                href="{{ route('user.login') }}">@lang('Sign In')</a></label>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +142,8 @@
         </div>
     </section>
 
-    <div class="modal fade" id="existModalCenter" role="dialog" aria-labelledby="existModalCenterTitle" aria-hidden="true" tabindex="-1">
+    <div class="modal fade" id="existModalCenter" role="dialog" aria-labelledby="existModalCenterTitle" aria-hidden="true"
+        tabindex="-1">
         <div class="modal-dialog modal-dialog-centered" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -182,4 +222,34 @@
             });
         })(jQuery);
     </script>
+@endpush
+
+@push('style')
+    <style>
+        .btn-check:active+.btn-outline-danger,
+        .btn-check:checked+.btn-outline-danger,
+        .btn-outline-danger.active,
+        .btn-outline-danger.dropdown-toggle.show,
+        .btn-outline-danger:active {
+            color: #fff;
+            background-color: #1BABAF;
+            border-color: #dc3545;
+        }
+
+        .btn-check:active+.btn-outline-success,
+        .btn-check:checked+.btn-outline-success,
+        .btn-outline-success.active,
+        .btn-outline-success.dropdown-toggle.show,
+        .btn-outline-success:active {
+            color: #fff;
+            background-color: #27BF7F;
+            border-color: #198754;
+        }
+
+        .btn-outline-danger:hover {
+            color: #fff;
+            background-color: #1BABAF;
+            border-color: #dc3545;
+        }
+    </style>
 @endpush

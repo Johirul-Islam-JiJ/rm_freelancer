@@ -43,10 +43,11 @@
                             <ul class="footer-links">
                                 <li><a href="{{ route('blogs') }}">@lang('Blogs')</a></li>
                                 @foreach($policyPages as $policy)
-                                    <li>
-                                        <a href="{{ route('policy.pages',[slug($policy->data_values->title),$policy->id]) }}">{{ __($policy->data_values->title) }}</a>
-                                    </li>
+                                <li>
+                                    <a href="{{ route('policy.pages',[slug($policy->data_values->title),$policy->id]) }}">{{ __($policy->data_values->title) }}</a>
+                                </li>
                                 @endforeach
+                                <li><a href="{{ route('helpdesk') }}">@lang('Help Desk')</a></li>
                             </ul>
                         </div>
                     </div>

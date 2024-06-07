@@ -1,10 +1,10 @@
 <h5 class="menu-header-title">@lang('Basic')</h5>
 <ul id="sidebar-main-menu" class="sidebar-main-menu">
-    <li class="sidebar-single-menu nav-item {{menuActive('user.inbox*',4)}}">
+    {{-- <li class="sidebar-single-menu nav-item {{menuActive('user.inbox*',4)}}">
         <a href="{{ route('user.inbox.list') }}">
             <i class="las la-inbox"></i> <span class="title">@lang('Inbox')</span>
         </a>
-    </li>
+    </li> --}}
     <li class="sidebar-single-menu nav-item {{menuActive('user.deposit.index',4)}}">
         <a href="{{ route('user.deposit.index') }}">
             <i class="las la-coins"></i> <span class="title">@lang('Deposit Money')</span>

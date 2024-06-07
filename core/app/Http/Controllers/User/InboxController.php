@@ -79,7 +79,7 @@ class InboxController extends Controller
             'unique_id'   => 'required',
             'receiver_id' => 'required',
             'message'     => 'required_without:file',
-            'file'        => ['nullable', new FileTypeValidate(['jpg', 'jpeg', 'png', 'pdf']), 'max:2000'],
+            'file'        => ['nullable', new FileTypeValidate(['jpg', 'jpeg', 'png', 'pdf']), 'max:5000'],
         ],[
             'message.required_without' => "The message filed is required"
         ]);

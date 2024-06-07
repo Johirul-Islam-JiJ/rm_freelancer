@@ -20,7 +20,12 @@
                             <i class="las la-taxi"></i> <span class="title">@lang('Manage Services')</span>
                         </a>
                     </li>
-                    <li class="sidebar-single-menu nav-item {{menuActive('user.seller.software.index',4)}}">
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="#">
+                            <i class="las la-laptop-code"></i> <span class="title">@lang('Favorite Service')</span>
+                        </a>
+                    </li>
+                    {{-- <li class="sidebar-single-menu nav-item {{menuActive('user.seller.software.index',4)}}">
                         <a href="{{route('user.seller.software.index')}}">
                             <i class="las la-laptop-code"></i> <span class="title">@lang('Manage Software')</span>
                         </a>
@@ -29,10 +34,48 @@
                         <a href="{{route('user.seller.software.new')}}">
                             <i class="las la-plus-circle"></i> <span class="title">@lang('Upload Software')</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
                 <h5 class="menu-header-title">@lang('Sales')</h5>
                 <ul id="sidebar-main-menu" class="sidebar-main-menu">
+                    <li class="sidebar-single-menu nav-item {{menuActive('user.seller.booking.service.list',4)}}">
+                        <a href="{{route('user.seller.booking.service.list')}}">
+                            <i class="las la-taxi"></i> <span class="title">@lang('All orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.seller.booking.service.order', ['status' => '1']) }}">
+                            <i class="las la-user-secret"></i> <span class="title">@lang('Complete orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.seller.booking.service.order', ['status' => '2']) }}">
+                            <i class="las la-laptop-code"></i> <span class="title">@lang('Delivered orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item {{menuActive('user.seller.booking.service.pending',4)}}">
+                        <a href="{{route('user.seller.booking.service.pending')}}">
+                            <i class="las la-laptop-code"></i> <span class="title">@lang('Pending orders')</span>
+                        </a>
+                    </li>                                       
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.seller.booking.service.order', ['status' => '3']) }}">
+                            <i class="las la-user-secret"></i> <span class="title">@lang('Progress orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.seller.booking.service.order', ['status' => '4']) }}">
+                            <i class="las la-taxi"></i> <span class="title">@lang('Late orders')</span>
+                        </a>
+                    </li>
+                   
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.seller.booking.service.order', ['status' => '5']) }}">
+                            <i class="las la-user-secret"></i> <span class="title">@lang('Cancel orders')</span>
+                        </a>
+                    </li>
+                </ul>
+                {{-- <ul id="sidebar-main-menu" class="sidebar-main-menu">
                     <li class="sidebar-single-menu nav-item {{menuActive('user.seller.booking.service*',4)}}">
                         <a href="{{route('user.seller.booking.service.list')}}">
                             <i class="las la-taxi"></i> <span class="title">@lang('Service Booking')</span>
@@ -48,7 +91,7 @@
                             <i class="las la-user-secret"></i> <span class="title">@lang('Job List')</span>
                         </a>
                     </li>
-                </ul>
+                </ul> --}}
 
                 @include($activeTemplate . 'partials.basic_sidebar')
             </div>

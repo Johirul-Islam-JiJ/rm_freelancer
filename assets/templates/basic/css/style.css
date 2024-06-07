@@ -491,12 +491,12 @@ blockquote .quote-icon {
 }
 
 .bg--base {
-  background: #2cdd9b;
-  background: -webkit-linear-gradient(legacy-direction(to right), #2cdd9b 0%, #1dc8cc 100%);
-  background: -webkit-gradient(linear, left top, right top, from(#2cdd9b), to(#1dc8cc));
-  background: -webkit-linear-gradient(left, #2cdd9b 0%, #1dc8cc 100%);
-  background: -o-linear-gradient(left, #2cdd9b 0%, #1dc8cc 100%);
-  background: linear-gradient(to right, #2cdd9b 0%, #1dc8cc 100%);
+  background: #78D7AF;
+  background: -webkit-linear-gradient(legacy-direction(to right), #78D7AF 0%, #1CACAC 100%);
+  background: -webkit-gradient(linear, left top, right top, from(#78D7AF), to(#1CACAC));
+  background: -webkit-linear-gradient(left, #78D7AF 0%, #1CACAC 100%);
+  background: -o-linear-gradient(left, #78D7AF 0%, #1CACAC 100%);
+  background: linear-gradient(to right, #78D7AF 0%, #1CACAC 100%);
 }
 
 .text--primary {
@@ -566,7 +566,7 @@ blockquote .quote-icon {
 }
 
 .section--bg {
-  background-color: #1e2746 !important;
+  background-color: #034F4F !important;
 }
 
 .bg--gray {
@@ -606,7 +606,7 @@ blockquote .quote-icon {
 }
 
 .custom-table thead tr {
-  background-color: #1e2746;
+  background-color: #034F4F;
 }
 
 .custom-table thead tr th {
@@ -966,7 +966,7 @@ blockquote .quote-icon {
 }
 
 .custom--card .card-header {
-  background-color: #1e2746;
+  background-color: #034F4F;
   padding: 0.8rem 1rem;
 }
 
@@ -1543,6 +1543,7 @@ option {
   -webkit-appearance: none;
   background: #f0eeee;
   border-radius: 5px;
+  border: 1px solid red;
   padding: 8px;
   display: inline-block;
   position: relative;
@@ -2806,7 +2807,7 @@ option {
 }
 
 .copyright-area {
-  background-color: #1e2746;
+  background-color: #034f4f10;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
   padding: 15px 0;
 }
@@ -4883,7 +4884,7 @@ option {
 }
 
 .dashboard-sidebar-inner {
-  background-color: #1e2746;
+  background-color: #034F4F;
   padding: 20px 20px;
   border-radius: 5px;
   height: 100%;
@@ -6334,4 +6335,65 @@ textarea.form--control{
 
 .custom-table tbody tr td .author-info .thumb a {
 	display: block;
+}
+
+.banner-section {
+  padding: 100px 0;
+  position: relative;
+}
+
+.banner-section::before {
+  background-color: hsl(var(--accent)/0.7);
+}
+
+.banner-section .container {
+  position: relative;
+}
+
+@media (max-width: 1199px) {
+  .banner-section {
+      padding: 150px 0;
+  }
+}
+
+@media (max-width: 767px) {
+  .banner-section {
+      padding: 120px 0;
+  }
+}
+
+@media (max-width: 450px) {
+  .banner-section {
+      padding: 60px 0;
+  }
+}
+
+.banner-content {
+  max-width: 670px;
+  text-align: start;
+}
+
+.banner-content .title {
+  color: hsl(var(--white));
+  font-size: 54px;
+  font-weight: 500;
+}
+
+.banner-content p {
+  color: hsl(var(--white));
+  font-size: 24px;
+  font-weight: 400;
+  margin: 25px 0 30px;
+}
+
+@media (max-width: 991px) {
+  .banner-content p {
+      font-size: 20px;
+  }
+}
+
+@media (max-width: 450px) {
+  .banner-content p {
+      font-size: 18px;
+  }
 }

@@ -55,6 +55,8 @@ Route::controller('ItemController')->group(function () {
 Route::controller('SiteController')->group(function () {
     Route::get('adRedirect/{id}', 'adRedirect')->name('adRedirect');
     Route::get('/contact', 'contact')->name('contact');
+    Route::get('/help-desk', 'helpDesk')->name('helpdesk');
+    Route::post('/help-desk', 'helpSubmit')->name('helpdesk.submit');
     Route::post('/contact', 'contactSubmit');
 
     // Subscriber Store

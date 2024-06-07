@@ -25,16 +25,16 @@
                             <i class="lab la-gratipay"></i> <span class="title">@lang('Favorite Service')</span>
                         </a>
                     </li>
-                    <li class="sidebar-single-menu nav-item {{menuActive('user.buyer.favorite.software',4)}}">
+                    {{-- <li class="sidebar-single-menu nav-item {{menuActive('user.buyer.favorite.software',4)}}">
                         <a href="{{route('user.buyer.favorite.software')}}">
                             <i class="las la-heart"></i> <span class="title">@lang('Favorite Software')</span>
                         </a>
-                    </li>
+                    </li> --}}
                 </ul>
 
                 <h5 class="menu-header-title">@lang('Purchase')</h5>
                 <ul id="sidebar-main-menu" class="sidebar-main-menu">
-                    <li class="sidebar-single-menu nav-item {{menuActive('user.buyer.hiring*',4)}}">
+                    {{-- <li class="sidebar-single-menu nav-item {{menuActive('user.buyer.hiring*',4)}}">
                         <a href="{{route('user.buyer.hiring.list')}}">
                             <i class="las la-user-secret"></i> <span class="title">@lang('Hiring List')</span>
                         </a>
@@ -47,6 +47,42 @@
                     <li class="sidebar-single-menu nav-item {{menuActive('user.buyer.software.*',4)}}">
                         <a href="{{route('user.buyer.software.log')}}">
                             <i class="las la-laptop-code"></i> <span class="title">@lang('Software Purchase')</span>
+                        </a>
+                    </li> --}}
+
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{route('user.buyer.booked.services')}}">
+                            <i class="las la-taxi"></i> <span class="title">@lang('All orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.buyer.booked.order', ['status' => '1']) }}">
+                            <i class="las la-user-secret"></i> <span class="title">@lang('Complete orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.buyer.booked.order', ['status' => '2']) }}">
+                            <i class="las la-laptop-code"></i> <span class="title">@lang('Delivered orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{route('user.buyer.booked.pending')}}">
+                            <i class="las la-laptop-code"></i> <span class="title">@lang('Pending orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.buyer.booked.order', ['status' => '3']) }}">
+                            <i class="las la-user-secret"></i> <span class="title">@lang('Progress orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.buyer.booked.order', ['status' => '4']) }}">
+                            <i class="las la-taxi"></i> <span class="title">@lang('Late orders')</span>
+                        </a>
+                    </li>
+                    <li class="sidebar-single-menu nav-item">
+                        <a href="{{ route('user.buyer.booked.order', ['status' => '5']) }}">
+                            <i class="las la-user-secret"></i> <span class="title">@lang('Cancel orders')</span>
                         </a>
                     </li>
                 </ul>
